@@ -1,24 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 
 //include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+	const [tarea, setTarea] = useState("");
+	const [lista, setLista] = useState([]);
+	const [indexOver, setIndexOver] = useState("");
+
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="container">
+			<div className="container text-center mt-5">
+				<h1>todos</h1>
+			</div>
+			<div className="container input-group mb-3">
+				<input
+					type="text"
+					className="form-control"
+					placeholder="Tarea"
+					onChange={e => setTarea(e.target.value)}
+					aria-label="Username"
+					aria-describedby="basic-addon1"></input>
+				<button
+					type="button"
+					className="btn btn-primary"
+					onClick={() => setTarea(tarea.target.value)}>
+					Primary
+				</button>
+			</div>
+			<ul className="list-group">
+				{/* {lista.map((item, index) => {
+					return(
+					<li
+						key={index}
+						className="list-group-item"
+						onMouseOver={() => setIndexOver(index)}>
+						{item}
+						{indexOver == index ? <button type="button" class="btn btn-light">X</button> : ""}
+					</li>;
+					);
+				})} */}
+			</ul>
 		</div>
 	);
 };
