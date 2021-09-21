@@ -5,31 +5,51 @@ import React, { useState } from "react";
 //create your first component
 const Home = () => {
 	const [tarea, setTarea] = useState("");
-	const [lista, setLista] = useState([]);
-	const [indexOver, setIndexOver] = useState("");
+	const [lista, setListas] = useState([]);
 
+	const cargarInput = event => {
+		setTarea(event.target.value);
+	};
+
+	const enviarInput = event => {
+		event.preventDefault();
+		if (!tarea.trim()) {
+			alert("Debe completar el campo");
+			return;
+		}
+		setListas([...lista, tarea]);
+		setTarea("");
+	};
 	return (
 		<div className="container">
 			<div className="container text-center mt-5">
-				<h1>todos</h1>
+				<h1>ToDos</h1>
 			</div>
-			<div className="container input-group mb-3">
-				<input
-					type="text"
-					className="form-control"
-					placeholder="Tarea"
-					onChange={e => setTarea(e.target.value)}
-					aria-label="Username"
-					aria-describedby="basic-addon1"></input>
-				<button
-					type="button"
-					className="btn btn-primary"
-					onClick={() => setTarea(tarea.target.value)}>
-					Primary
-				</button>
-			</div>
+
+			<form className="row" onSubmit={enviarInput}>
+				<div className="container col-md-6">
+					<input
+						type="text"
+						className="form-control"
+						placeholder="Tarea"
+						value={tarea}
+						onChange={cargarInput}
+						aria-label="Username"
+						aria-describedby="basic-addon1"></input>
+					<button type="submit" className="btn btn-primary">
+						Enviar
+					</button>
+				</div>
+			</form>
+
 			<ul className="list-group">
-				{/* {lista.map((item, index) => {
+				{lista.map((item, index) => (
+					<li key={index} className="list-group-item">
+						{item}
+					</li>
+				))}
+
+				{/* /* {lista.map((item, index) => {
 					return(
 					<li
 						key={index}
