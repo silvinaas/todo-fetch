@@ -8,7 +8,16 @@ const Home = () => {
 	const [lista, setListas] = useState([]);
 
 	const cargarInput = event => {
-		setTarea(event.target.value);
+		setTarea(event.target.value); //obtenemos el valor del input y actualizamos la tarea
+	};
+
+	const handleDeletion = index => {
+		console.log(index);
+		let listaNueva = lista.filter((tarea, indice) => index !== indice);
+		console.log(listaNueva);
+		setListas(listaNueva);
+
+		//si array.lenght <1 ? <h1> no se han agregado tareas   :
 	};
 
 	const enviarInput = event => {
@@ -18,7 +27,6 @@ const Home = () => {
 			return;
 		}
 		setListas([...lista, tarea]);
-		setTarea("");
 	};
 	return (
 		<div className="container">
@@ -37,29 +45,22 @@ const Home = () => {
 						aria-label="Username"
 						aria-describedby="basic-addon1"></input>
 					<button type="submit" className="btn btn-primary">
-						Enviar
+						Añadir
 					</button>
 				</div>
 			</form>
 
 			<ul className="list-group">
 				{lista.map((item, index) => (
-					<li key={index} className="list-group-item">
+					<li key={index} id="tarea" className="list-group-item">
 						{item}
+						<button
+							className="cerrar"
+							onClick={() => handleDeletion(index)}>
+							X
+						</button>
 					</li>
 				))}
-
-				{/* /* {lista.map((item, index) => {
-					return(
-					<li
-						key={index}
-						className="list-group-item"
-						onMouseOver={() => setIndexOver(index)}>
-						{item}
-						{indexOver == index ? <button type="button" class="btn btn-light">X</button> : ""}
-					</li>;
-					);
-				})} */}
 			</ul>
 		</div>
 	);
