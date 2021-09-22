@@ -16,8 +16,6 @@ const Home = () => {
 		let listaNueva = lista.filter((tarea, indice) => index !== indice);
 		console.log(listaNueva);
 		setListas(listaNueva);
-
-		//si array.lenght <1 ? <h1> no se han agregado tareas   :
 	};
 
 	const enviarInput = event => {
@@ -29,11 +27,8 @@ const Home = () => {
 		setListas([...lista, tarea]);
 	};
 	return (
-		<div className="container">
-			<div className="container text-center mt-5">
-				<h1>ToDos</h1>
-			</div>
-
+		<div className="container text-center mt-5">
+			<h1 id="titulo"> ToDos</h1>
 			<form className="row" onSubmit={enviarInput}>
 				<div className="container col-md-6">
 					<input
@@ -44,24 +39,30 @@ const Home = () => {
 						onChange={cargarInput}
 						aria-label="Username"
 						aria-describedby="basic-addon1"></input>
-					<button type="submit" className="btn btn-primary">
+					<button
+						id="boton"
+						type="submit"
+						className="btn btn-outline-secondary">
 						Añadir
 					</button>
 				</div>
 			</form>
-
-			<ul className="list-group">
-				{lista.map((item, index) => (
-					<li key={index} id="tarea" className="list-group-item">
-						{item}
-						<button
-							className="cerrar"
-							onClick={() => handleDeletion(index)}>
-							X
-						</button>
-					</li>
-				))}
-			</ul>
+			<div className="container col-md-6">
+				<ul className="row list-group">
+					{lista.map((item, index) => (
+						<li key={index} id="tarea" className="list-group-item">
+							{item}
+							<button
+								id="eliminar"
+								className="cerrar"
+								onClick={() => handleDeletion(index)}>
+								X
+							</button>
+						</li>
+					))}
+				</ul>
+				<p> {lista.length} Tareas pendientes</p>{" "}
+			</div>
 		</div>
 	);
 };

@@ -12,6 +12,15 @@
 
 */
 
+#titulo{
+   color: rgb(228, 166, 145);
+}
+
+
+#eliminar{
+    background-color: lightsalmon;
+}
+
 #tarea:hover .cerrar{ 
     visibility: visible;
 }
@@ -19,3 +28,4 @@
 #tarea .cerrar{
     visibility: hidden;
 }
+
