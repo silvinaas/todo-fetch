@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //include images into your bundle
 
@@ -26,6 +26,44 @@ const Home = () => {
 		}
 		setListas([...lista, tarea]);
 	};
+
+	const verTareas = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/silvinaas", {
+			method: "GET"
+		})
+			.then(response => response.json())
+			.then(data => setListas(data));
+	};
+
+	useEffect(() => {
+		verTareas();
+	}, []);
+
+	const agregarTarea = () => {
+		let listaNueva = [...lista, { label: tarea, done: false }];
+		setListas(listaNueva);
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/silvinaas", {
+			method: "PUT",
+			body: JSON.stringify(lista),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				return resp; // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
+			})
+			.then(data => {
+				//Aquí es donde debe comenzar tu código después de que finalice la búsqueda
+				verTareas();
+				console.log(data); //esto imprimirá en la consola el objeto exacto recibido del servidor
+			})
+			.catch(error => {
+				//manejo de errores
+				console.log(error);
+			});
+		setTarea("");
+	};
+
 	return (
 		<div className="container text-center mt-5">
 			<h1 id="titulo"> ToDos</h1>
