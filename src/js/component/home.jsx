@@ -7,6 +7,14 @@ const Home = () => {
 	const [tarea, setTarea] = useState("");
 	const [lista, setListas] = useState([]);
 
+	useEffect(() => {
+		cargarTareas();
+	}, []);
+
+	useEffect(() => {
+		agregarTarea();
+	}, [lista]);
+
 	const cargarInput = event => {
 		setTarea(event.target.value); //obtenemos el valor del input y actualizamos la tarea
 	};
@@ -24,10 +32,14 @@ const Home = () => {
 			alert("Debe completar el campo");
 			return;
 		}
-		setListas([...lista, tarea]);
+		const newTarea = {
+			label: tarea,
+			done: false
+		};
+		setListas([...lista, newTarea]);
 	};
 
-	const verTareas = () => {
+	const cargarTareas = () => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/silvinaas", {
 			method: "GET"
 		})
@@ -35,13 +47,7 @@ const Home = () => {
 			.then(data => setListas(data));
 	};
 
-	useEffect(() => {
-		verTareas();
-	}, []);
-
 	const agregarTarea = () => {
-		let listaNueva = [...lista, { label: tarea, done: false }];
-		setListas(listaNueva);
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/silvinaas", {
 			method: "PUT",
 			body: JSON.stringify(lista),
@@ -49,18 +55,17 @@ const Home = () => {
 				"Content-Type": "application/json"
 			}
 		})
-			.then(resp => {
-				return resp; // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
-			})
+			.then(resp => resp.json()) // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
+
 			.then(data => {
 				//Aquí es donde debe comenzar tu código después de que finalice la búsqueda
-				verTareas();
 				console.log(data); //esto imprimirá en la consola el objeto exacto recibido del servidor
 			})
 			.catch(error => {
 				//manejo de errores
 				console.log(error);
 			});
+
 		setTarea("");
 	};
 
@@ -89,7 +94,7 @@ const Home = () => {
 				<ul className="row list-group">
 					{lista.map((item, index) => (
 						<li key={index} id="tarea" className="list-group-item">
-							{item}
+							{item.label}
 							<button
 								id="eliminar"
 								className="cerrar"
